@@ -1,6 +1,7 @@
 package com.tektrill.vaadin.boot.view;
 
 import com.tektrill.vaadin.boot.constants.BootConstants;
+import com.tektrill.vaadin.boot.events.LogoutEvent;
 import com.tektrill.vaadin.boot.util.VaadinBootUtils;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -12,6 +13,8 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.spring.events.EventBus;
 import org.vaadin.viritin.button.MButton;
 import org.vaadin.viritin.label.MLabel;
 
@@ -22,6 +25,9 @@ import org.vaadin.viritin.label.MLabel;
 public class BootMenuView extends VerticalLayout implements View {
 
 	public static final String VIEW_NAME = "home";
+
+	@Autowired
+	private EventBus.UIEventBus uiEventBus;
 
 	private Label lblWelcome = new MLabel("Welcome");
 	private Button btnLogout = new MButton("Logout", this::onLogoutButtonClicked);
@@ -34,12 +40,6 @@ public class BootMenuView extends VerticalLayout implements View {
 
 	}
 	private void onLogoutButtonClicked(Button.ClickEvent event){
-		VaadinSession.getCurrent().setAttribute(BootConstants.USER, null);
-		//VaadinBootUtils.navigateToView(BootLoginView.VIEW_NAME);
-		VaadinBootUtils.navigateToView(VaadinBootUtils.getLogoutPageLocation());
-//		getUI().getPage().setLocation(VaadinBootUtils.getLogoutPageLocation());
-		//getUI().getSession().close();
-		getSession().close();
-		//VaadinService.getCurrentRequest().getWrappedSession().invalidate();
+		uiEventBus.publish(this, new LogoutEvent());
 	}
 }
