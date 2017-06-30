@@ -12,7 +12,5 @@ public class VaadinBootUtils {
 	}
 
 
-	public static String getLogoutPageLocation() {
-		return "/";
-	}
+
 }
