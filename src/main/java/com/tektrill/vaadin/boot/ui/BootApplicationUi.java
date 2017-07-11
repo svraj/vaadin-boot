@@ -9,16 +9,16 @@ import com.tektrill.vaadin.boot.util.VaadinBootUtils;
 import com.tektrill.vaadin.boot.view.BootDefaultView;
 import com.tektrill.vaadin.boot.view.BootMenuView;
 import com.vaadin.annotations.Theme;
-import com.vaadin.server.DeploymentConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.server.WrappedSession;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.navigator.SpringNavigator;
 import com.vaadin.spring.navigator.SpringViewProvider;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
+import com.vaadin.server.DeploymentConfiguration;
+import com.vaadin.server.WrappedSession;
+import com.vaadin.ui.Notification;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,15 +49,12 @@ public class BootApplicationUi extends UI {
 	private String sessionTimeOut;
 	private static final Logger LOGGER = LoggerFactory.getLogger(BootApplicationUi.class);
 
-
-
 	public BootApplicationUi(SpringViewProvider springViewProvider, SpringNavigator springNavigator, EventBus.UIEventBus uiEventBus, BootLoginService bootLoginService) {
 		this.springViewProvider = springViewProvider;
 		this.springNavigator = springNavigator;
 		this.uiEventBus = uiEventBus;
 		this.bootLoginService = bootLoginService;
 	}
-
 
 	@Override
 	protected void init(VaadinRequest request) {
@@ -67,12 +64,9 @@ public class BootApplicationUi extends UI {
 		VaadinBootUtils.navigateToView(BootDefaultView.VIEW_NAME);
 	}
 
-
-
 	private void initNavigator() {
 		springNavigator.init(this, viewContainer);
 	}
-
 
 	@EventBusListenerMethod(scope = EventScope.UI)
 	private void onLoginEvent(LoginEvent loginEvent) {
@@ -84,8 +78,6 @@ public class BootApplicationUi extends UI {
 		}catch(Exception e){
 			Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
 		}
-
-
 	}
 
 	@EventBusListenerMethod(scope = EventScope.UI)
@@ -110,8 +102,5 @@ public class BootApplicationUi extends UI {
 		WrappedSession session = getSession().getSession();
 		LOGGER.info("Max Inactive Interval :" + session.getMaxInactiveInterval());
 	}
-
-
-
 
 }
